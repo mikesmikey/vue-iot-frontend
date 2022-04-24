@@ -81,7 +81,7 @@ export default {
         datasets: [
           {
             label: 'Records Recieved in July 2020',
-            backgroundColor: '#f87979',
+            backgroundColor: '#FF4757',
             data: [0]
           }
         ]
@@ -103,7 +103,7 @@ export default {
         datasets: [
           {
             label: 'Records Recieved in July 2020',
-            backgroundColor: '#f87979',
+            backgroundColor: '#FF4757',
             data: newVal.map(elem => elem.recordAmount)
           }
         ]
