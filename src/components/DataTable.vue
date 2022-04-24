@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="data-table">
-    <vs-table :data="users" stripe>
+    <vs-table pagination :data="sensorData" max-items="50" stripe>
       <template slot="header">
         <h3>
           List Table
@@ -20,7 +20,7 @@
           </vs-td>
 
           <vs-td :data="data[indextr].timestamp">
-            {{ data[indextr].timestamp }}
+            {{ new Date(data[indextr].timestamp) }}
           </vs-td>
 
           <vs-td :data="data[indextr].data">
@@ -37,41 +37,15 @@
 </template>
 
 <script>
+
 export default {
-  data: () => ({
-    users: [
-      {
-        id: 1,
-        timestamp: "2020-07-08T08:22:20.348Z",
-        data: 854762.82,
-        data2: null,
-      },
-      {
-        id: 2,
-        timestamp: "2020-07-08T08:22:20.348Z",
-        data: 854762.82,
-        data2: null,
-      },
-      {
-        id: 3,
-        timestamp: "2020-07-08T08:22:20.348Z",
-        data: 854762.82,
-        data2: null,
-      },
-      {
-        id: 4,
-        timestamp: "2020-07-08T08:22:20.348Z",
-        data: 854762.82,
-        data2: 231.25,
-      },
-      {
-        id: 5,
-        timestamp: "2020-07-08T08:22:20.348Z",
-        data: 854762.82,
-        data2: null,
-      },
-    ],
-  }),
+  props: {
+    sensorData: {
+      type: Array[Object],
+      required: true,
+      default: []
+    }
+  },
 };
 </script>
 

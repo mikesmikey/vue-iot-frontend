@@ -29,8 +29,8 @@
           </button>
         </div>
         <div class="view-canvas">
-          <DataTable v-if="currentView === 'list'" />
-          <calendar v-else />
+          <DataTable v-if="currentView === 'list'" :sensorData="sensorData" />
+          <Calendar v-else :sensorData="sensorData" />
         </div>
       </ThemeBox>
     </div>
@@ -38,17 +38,22 @@
 </template>
 
 <script>
+import { getDataFromBackend } from '../services/dataService';
 // @ is an alias to /src
 import ThemeBox from "@/components/ThemeBox.vue";
 import DataTable from '@/components/DataTable.vue'
-import calendar from "../components/Calendar.vue";
+import Calendar from "../components/Calendar.vue";
 
 export default {
   name: 'Home',
   components: {
     ThemeBox,
     DataTable,
-    calendar
+    Calendar
+  },
+  async beforeMount() {
+    let res = await getDataFromBackend()
+    this.sensorData = res.data.sort().reverse();
   },
   data() {
     return {
@@ -79,6 +84,7 @@ export default {
           value: "24 hr",
         },
       ],
+      sensorData: {},
     };
   },
   methods: {

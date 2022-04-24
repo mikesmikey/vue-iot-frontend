@@ -1,60 +1,55 @@
 <template>
   <div class="calendar">
-    <div class="row">
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-    </div>
-    <div class="row">
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-    </div>
-    <div class="row">
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-    </div>
-    <div class="row">
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
-      <CalendarCard />
+    <div class="row" v-for="i in 6" :key="i">
+      <CalendarCard v-for="j in 7" :key="indexByRowAndColumn(i, j)"
+        :recordPerDayData="calendarData[indexByRowAndColumn(i, j)]" />
     </div>
   </div>
 </template>
 
 <script>
+// eslint-disable-next-line no-unused-vars
 import moment from 'moment'
 import CalendarCard from '@/components/CalendarCard.vue'
 export default {
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     CalendarCard
   },
-  data() {
-    console.log(moment().daysInMonth());
-    return {
-
+  props: {
+    sensorData: {
+      type: Array[Object],
+      required: true,
+      default: [],
     }
   },
+  data() {
+    return {
+      calendarData: []
+    }
+  },
+  beforeMount() {
+    this.calendarData = this.calculateCalendar();
+  },
   methods: {
-
-  }
+    calculateCalendar: function () {
+      let emptyCalendarData = []
+      for (let i = 0; i < 31; i++) {
+        emptyCalendarData[i] = {
+          dayString: `${i + 1} ${moment().year(2020).month(6).date(i + 1).format('dd')}`,
+          recordAmount: 0,
+        }
+      }
+      for (let i = 0; i < this.sensorData.length; i++) {
+        let momentDate = moment(this.sensorData[i].timestamp)
+        emptyCalendarData[momentDate.date() - 1].recordAmount += 1
+      }
+      return emptyCalendarData
+    },
+    indexByRowAndColumn(row, column) {
+      return ((row - 1) * 7) + (column - 1)
+    }
+  },
 }
 </script>
 
